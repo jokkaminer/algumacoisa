@@ -1,0 +1,134 @@
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #ffccff, #ccffff);
+  overflow-x: hidden;
+}
+
+header {
+  background: #ff3399;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 0 10px #0004;
+}
+
+h2 {
+  font-size: 40px;
+  margin: 0;
+}
+
+.container {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.mensagem, .curiosidades, .galeria {
+  background: white;
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.mensagem p, .curiosidades ul {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #333;
+}
+
+.curiosidades ul {
+  text-align: left;
+}
+
+.galeria img {
+  width: 200px;
+  margin: 10px;
+  border-radius: 12px;
+  transition: transform 0.3s;
+}
+
+.galeria img:hover {
+  transform: scale(1.1);
+}
+
+.bolo {
+  font-size: 100px;
+  margin-top: 20px;
+}
+
+footer {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* Balões animados */
+.balao {
+  position: absolute;
+  bottom: -150px;
+  animation: subir 10s infinite ease-in;
+  opacity: 0.7;
+}
+
+.balao:nth-child(even) {
+  animation-duration: 12s;
+}
+
+@keyframes subir {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1200px); }
+}
+
+
+.audio-player-wrapper {
+max-width: 600px;
+margin: 40px auto;
+padding: 20px;
+background-color: #f9f9f9;
+border: 1px solid #ddd;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+text-align: center;
+font-family: 'Arial', sans-serif;
+}
+
+.audio-title {
+font-size: 18px;
+margin-bottom: 15px;
+color: #333;
+}
+
+.audio-player-wrapper iframe {
+border: none;
+border-radius: 8px;
+}
+
+
+button {
+background-color: #111;               /* Cor de fundo escura */
+color: #fff;                          /* Cor da fonte */
+border: none;
+padding: 12px 24px;
+border-radius: 12px;
+font-size: 16px;
+font-family: 'Arial', sans-serif;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+background-color: #333;               /* Fundo mais claro ao passar o mouse */
+transform: scale(1.05);               /* Leve zoom */
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+transform: scale(0.97);               /* Efeito de clique */
+box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
