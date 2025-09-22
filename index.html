@@ -1,113 +1,187 @@
-<!doctype html>
+ <!doctype html>
 
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fazenda das Areias — Diversão em Inimutaba</title>
-  <meta name="description" content="Site divertido sobre a Fazenda das Areias, feito por Jokka da Escola Bolívar de Freitas. Trabalho de Geografia - Turma 206.">
-  <style>
-    body {
-      font-family: "Comic Sans MS", Arial, sans-serif;
-      margin: 0;
-      background: #fdf6e3;
-      color: #333;
-    }
-    header {
-      background: linear-gradient(90deg, #ff8c42, #ffb347);
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-    header p {
-      margin: 5px 0 0;
-      font-weight: bold;
-    }
-    main {
-      padding: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #fff8f0;
-      border: 2px dashed #ff8c42;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 18px;
-    }
-    h2, h3 {
-      color: #e85d04;
-      margin-top: 0;
-    }
-    ul {
-      padding-left: 18px;
-    }
-    footer {
-      text-align: center;
-      padding: 12px;
-      background: #ff8c42;
-      color: #fff;
-      font-size: 14px;
-    }
-    .highlight {
-      background: #ffe0b2;
-      padding: 6px 10px;
-      border-radius: 8px;
-      display: inline-block;
-      margin-top: 6px;
-    }
-    .contact {
-      margin-top: 12px;
-      font-size: 15px;
-      background: #fff3e0;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ffb347;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🌟 Fazenda das Areias 🌟</h1>
-    <p>Um pedacinho de diversão em Inimutaba - MG</p>
-    <p style="font-size:14px">Feito por <strong>Jokka</strong> da Escola <strong>Bolívar de Freitas</strong> 🎒</p>
-    <p style="font-size:13px">Trabalho de Geografia — Turma 206</p>
-  </header>  <main>
-    <section class="card">
-      <h2>🏡 Casas e Conforto</h2>
-      <p>Duas casas incríveis: uma com 2 quartos e outra com 4 quartos, todas com ar-condicionado. Tem fogão a lenha, churrasqueira, piscina e 4 banheiros no total!</p>
-    </section><section class="card">
-  <h2>🐴🐟 Atividades</h2>
-  <ul>
-    <li>Mais de <strong>20 cavalos</strong> para andar.</li>
-    <li>Pescar peixes criados na fazenda.</li>
-    <li>Piscina e trilhas para curtir.</li>
-  </ul>
-  <p class="highlight">Diárias a partir de R$ 72,00 por pessoa!</p>
-</section>
+<html lang="pt-BR">    
+<head>    
+  <meta charset="utf-8" />    
+  <meta name="viewport" content="width=device-width, initial-scale=1" />    
+  <title>Take Certo — Cultura em Filmes e Séries</title>    
+  <meta name="description" content="Take Certo — críticas, listas e análises de filmes e séries. Trabalho da turma 206 - Escola Bolívar de Freitas (Aula: Projeto de Vida)." />    
+  <style>    
+    :root {    
+      --bg: #0a0a0b;    
+      --card: #121214;    
+      --muted: #9aa0a6;    
+      --accent: linear-gradient(135deg, #ff8a00, #ff3d81);    
+      --glass: rgba(255, 255, 255, 0.08);    
+    }    
+    * { box-sizing: border-box; margin: 0; padding: 0; }    
+    body {    
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial;    
+      background: var(--bg);    
+      color: #fff;    
+      -webkit-font-smoothing: antialiased;    
+    }    
+    a { color: inherit; text-decoration: none; }    
+    img { max-width: 100%; display: block; border-radius: 16px; }    header {    
+  position: sticky;    
+  top: 0;    
+  backdrop-filter: blur(12px);    
+  background: rgba(10, 10, 11, 0.7);    
+  padding: 16px 32px;    
+  display: flex;    
+  justify-content: space-between;    
+  align-items: center;    
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);    
+  z-index: 50;    
+}    
+.logo { font-weight: 800; font-size: 20px; background: var(--accent); -webkit-background-clip: text; color: transparent; }    
+nav { display: flex; gap: 20px; }    
+nav a { color: var(--muted); font-weight: 600; padding: 8px 12px; border-radius: 8px; transition: 0.2s; }    
+nav a:hover { background: var(--glass); color: #fff; }    
 
-<section class="card">
-  <h2>🌱 Animais e Hortas</h2>
-  <p>Além de horta fresquinha, lá você encontra cachorros, gatos, porcos, galinhas, perus e muito mais. Uma verdadeira fazendinha cheia de vida!</p>
-</section>
+.hero {    
+  display: grid;    
+  gap: 32px;    
+  padding: 60px 24px 40px;    
+  text-align: center;    
+  background: linear-gradient(180deg, #111 0%, #0a0a0b 100%);    
+}    
+.hero img { max-height: 400px; object-fit: cover; margin: 0 auto 24px; border-radius: 20px; }    
+.hero h1 { font-size: 48px; margin-bottom: 16px; }    
+.hero p { max-width: 700px; margin: 0 auto; font-size: 18px; color: var(--muted); }    
+.cta { margin-top: 24px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }    
+.btn {    
+  padding: 12px 20px;    
+  border-radius: 999px;    
+  font-weight: 700;    
+  border: none;    
+  cursor: pointer;    
+  transition: 0.25s;    
+}    
+.btn-primary { background: var(--accent); color: #fff; }    
+.btn-primary:hover { transform: scale(1.05); }    
+.btn-ghost { background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); }    
+.btn-ghost:hover { color: #fff; border-color: #fff; }    
 
-<section class="card">
-  <h2>📍 Como Chegar</h2>
-  <p>Após o bairro Jabuticaba, siga em frente depois do cemitério — apenas 7 km do centro de Inimutaba/MG. Pesquise <strong>Fazenda das Areias</strong> no Maps!</p>
-</section>
+section { padding: 60px 24px; max-width: 1100px; margin: 0 auto; }    
+section h2 { font-size: 32px; margin-bottom: 24px; text-align: center; }    
+.grid { display: grid; gap: 20px; }    
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }    
+.card {    
+  background: var(--card);    
+  padding: 24px;    
+  border-radius: 16px;    
+  border: 1px solid rgba(255, 255, 255, 0.05);    
+  transition: 0.3s;    
+  text-align: center;    
+}    
+.card:hover { transform: translateY(-4px); }    
+.card h3 { margin-bottom: 12px; }    
+.muted { color: var(--muted); font-size: 15px; }    
+.card img { margin-bottom: 12px; border-radius: 12px; }    
 
-<section class="card contact">
-  <h2>📞 Contato</h2>
-  <p>Telefone: (555) 123-4567</p>
-  <p>Email: fazendadasareias206@gmail.com</p>
-</section>
+footer {    
+  background: #0a0a0b;    
+  padding: 24px;    
+  text-align: center;    
+  font-size: 14px;    
+  color: var(--muted);    
+  border-top: 1px solid rgba(255, 255, 255, 0.05);    
+}
 
-  </main>  <footer>
-    Fazenda das Areias • Trabalho de Geografia — Turma 206 • Feito por Jokka 🎨
-  </footer>
-</body>
+  </style>    
+</head>    
+<body>    
+  <header>    
+    <div class="logo">Take Certo</div>    
+    <nav>    
+      <a href="#sobre">Sobre</a>    
+      <a href="#reviews">Críticas</a>    
+      <a href="#listas">Listas</a>    
+      <a href="#contato">Contato</a>    
+    </nav>    
+  </header>      <section class="hero">    
+    <img src="https://substackcdn.com/image/fetch/$s_!1YW4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7beb5dce-f9d4-4de6-b19d-a06161a1d2b3_640x360.jpeg" alt="Cultura Pop">    
+    <h1>Take Certo — Cultura em Filmes e Séries</h1>    
+    <p>Um projeto da <strong>turma 206 da Escola Bolívar de Freitas</strong>, criado na aula de <strong>Projeto de Vida</strong>. Críticas, listas, análises de trailers e muito mais.</p>    
+    <div class="cta">    
+      <a class="btn btn-primary" href="#reviews">Ver Críticas</a>    
+      <a class="btn btn-ghost" href="#listas">Explorar Listas</a>    
+    </div>    
+  </section>      <section id="sobre">    
+    <h2>Sobre o Projeto</h2>    
+    <p class="muted" style="max-width: 800px; margin: 0 auto; text-align: center;">    
+      Take Certo é um trabalho escolar da turma 206 da Escola Bolívar de Freitas. Exploramos cinema e séries com críticas detalhadas, listas e análises, sempre com humor, criatividade e bom senso crítico.    
+    </p>    
+  </section>      <section id="reviews">    
+    <h2>Críticas Recentes</h2>    
+    <div class="grid grid-3">    
+      <div class="card">    
+        <img src="https://media1.faz.net/ppmedia/w1240/aktuell/3623466645/1.2531591/16x9/sein-name-sei-heisenberg.jpg" alt="Breaking Bad">    
+        <h3>Breaking Bad</h3>    
+        <p class="muted">Walter White se transforma em Heisenberg de forma brilhante. Tensão do começo ao fim, roteiro impecável. Nota: 10/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src=" https://rollingstone.com.br/wp-content/uploads/2025/04/elenco-de-serie-de-harry-potter-da-hbo-e-anunciado-saiba-quem-e-quem.jpg" alt="Harry Potter">    
+        <h3>Harry Potter</h3>    
+        <p class="muted">A saga que cresceu com gerações. Magia, amizade e aventura em doses perfeitas. Nota: 9/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://rollingstone.com.br/wp-content/uploads/poster_classico_de_star_wars__uma_nova_esperanca_-_reproducao__lucasfilm.jpg" alt="Star Wars">    
+        <h3>Star Wars</h3>    
+        <p class="muted">Uma galáxia de aventura, drama e ação. Luz, sabres e muito carisma dos personagens. Nota: 9,5/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://rollingstone.com.br/wp-content/uploads/2025/08/superman-de-james-gunn-ganha-data-de-estreia-nas-plataformas-digitais.jpg" alt="Superman">    
+        <h3>Superman (2025)</h3>    
+        <p class="muted">Visual incrível, cenas de ação grandiosas, mas roteiro pouco emocional. Nota: 7,5/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://www.planocritico.com/wp-content/uploads/2022/11/nada_de_novo_no_front_2022_plano_critico.jpg" alt="Nada de Novo no Front">    
+        <h3>Nada de Novo no Front</h3>    
+        <p class="muted">Mostra os horrores da guerra de forma crua e impactante. Nota: 9/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/estadao/DMB6JBP5OVBUVPS7JOGFNJHITQ.png" alt="Túmulo dos Vagalumes">    
+        <h3>O Túmulo dos Vagalumes</h3>    
+        <p class="muted">História emocionante sobre sobrevivência e perda. Um filme que toca o coração. Nota: 10/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://ingresso-a.akamaihd.net/b2b/production/uploads/article/image/1517/de-volta-para-o-futuro-4-christopher-lloyd-diz-que-pode-acontecer-70aacf0396180e.jpg" alt="De Volta para o Futuro">    
+        <h3>De Volta para o Futuro (1,2,3)</h3>    
+        <p class="muted">Trilogia icônica, divertida e criativa. Viagens no tempo e personagens inesquecíveis. Nota: 9/10.</p>    
+      </div>    
+      <div class="card">    
+        <img src="https://occ-0-8407-90.1.nflxso.net/dnm/api/v6/Z-WHgqd_TeJxSuha8aZ5WpyLcX8/AAAABYH7GvzzMkFwVml3FwHPf8C46NByUIlibW0MYdXTmJsclnGYwzSVcAeRcTfCX8BWFsrBRNTqk18jtF1Z0ezQbapUcdrEl8PMeHc8.jpg?r=180" alt="Os 13 Porquês">    
+        <h3>Os 13 Porquês</h3>    
+        <p class="muted">Começou com proposta interessante, mas exagerado e pouco responsável em temas sérios. Nota: 6,5/10.</p>    
+      </div>    
+    </div>    
+  </section>      <section id="listas">    
+    <h2>Listas & Recomendações</h2>    
+    <div class="grid grid-3">    
+      <div class="card">    
+        <h3>Séries para Maratonar</h3>    
+        <p class="muted">Breaking Bad, Dark, Stranger Things — imersão garantida em finais de semana de série.</p>    
+      </div>    
+      <div class="card">    
+        <h3>Filmes Emocionantes</h3>    
+        <p class="muted">O Túmulo dos Vagalumes, Nada de Novo no Front, À Procura da Felicidade — lágrimas, reflexão e inspiração.</p>    
+      </div>    
+      <div class="card">    
+        <h3>Clássicos da Cultura Pop</h3>    
+        <p class="muted">Harry Potter, Star Wars, De Volta para o Futuro — histórias que marcaram gerações e permanecem relevantes.</p>    
+      </div>    
+    </div>    
+  </section>      <section id="contato">    
+    <h2>Contato</h2>    
+    <p class="muted" style="text-align:center;">    
+      Para dúvidas ou sugestões sobre o projeto Take Certo:<br>    
+      📧 Email: <a href="mailto:takecerto@gmail.com">takecerto@gmail.com</a><br>    
+      📷 Instagram: <a href="https://instagram.com/tcerto" target="_blank">@tcerto</a>    
+    </p>    
+  </section>      <footer>    
+    Take Certo • Trabalho da turma 206 — Escola Bolívar de Freitas • Projeto de Vida • © 2025    
+  </footer>    
+</body>    
 </html>
