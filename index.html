@@ -1,177 +1,54 @@
-<!doctype html>
-<html lang="pt-BR">  
-<head>  
-<meta charset="utf-8"/>  
-<meta name="viewport" content="width=device-width,initial-scale=1"/>  
-<title>2-06 - Enquete (JSONBin)</title>  
-<style>  
-  :root{  
-    --bg1:#f1f7ff; --bg2:#e6f0ff; --accent1:#EE82EE; --accent2:#FFA500;  
-    --card:#ffffff; --muted:#657186; --primary:#556bff;  
-  }  
-  *{box-sizing:border-box}  
-  body{  
-    margin:0; font-family:Inter,system-ui,Arial; background: linear-gradient(180deg,var(--bg1),var(--bg2));  
-    display:flex; justify-content:center; padding:20px;  
-  }  
-  .wrap{width:100%; max-width:920px; background:linear-gradient(180deg,#fff,#fbfdff); border-radius:14px; box-shadow:0 18px 50px rgba(21,32,80,0.08); overflow:hidden;}  
-  header{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;background:linear-gradient(90deg,#fff,#f4f8ff);border-bottom:1px solid rgba(0,0,0,0.04)}  
-  header .a{font-weight:700;color:#203060} header .b{color:var(--muted)}  
-  .hero{padding:22px}  
-  .kicker{font-weight:800;font-size:22px;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}  
-  .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(20,30,80,0.04)}  
-  .content p{color:#334;line-height:1.45;margin:0 0 12px}  
-  .questions{padding:18px; display:block}  
-  .qtitle{font-weight:800;font-size:26px;background:linear-gradient(90deg,var(--accent1),var(--accent2));-webkit-background-clip:text;color:transparent;margin-bottom:6px}  
-  .subtitle{color:var(--muted);margin-bottom:12px}  
-  .options{display:flex;flex-direction:column;gap:12px}  
-  .option{  
-    background:linear-gradient(180deg,#f0f4ff,#edf1ff);  
-    padding:14px;border-radius:10px;cursor:pointer;border:2px solid transparent;  
-    transition:all .18s ease;display:flex;flex-direction:column;  
-  }  
-  .option:hover{transform:translateY(-3px)}  
-  .option.selected{border-color:rgba(85,107,255,0.9);box-shadow:0 8px 20px rgba(85,107,255,0.08)}  
-  .row{display:flex;align-items:center;gap:12px}  
-  .label{flex:0 0 170px;font-weight:600;color:#213055}  
-  .barwrap{flex:1;background:rgba(9,14,32,0.06);height:14px;border-radius:8px;overflow:hidden;position:relative}  
-  .bar{height:100%;width:0%;border-radius:8px;background:linear-gradient(90deg,#6a81ff,#8fb0ff);transition:width .6s cubic-bezier(.2,.9,.3,1)}  
-  .meta{width:120px;text-align:right;color:var(--muted);font-size:13px}  
-  .side{margin-top:14px;padding:14px;border-radius:10px;background:linear-gradient(180deg,#eef2ff,#e8efff);text-align:center;color:#243556}  
-  footer{padding:14px 18px;color:var(--muted);text-align:center}  
-  @media(max-width:720px){  
-    .label{flex:0 0 110px;font-size:14px}  
-    .meta{width:90px;font-size:12px}  
-  }  
-</style>  
-</head>  
-<body>  
-<div class="wrap" role="main">  
-  <header>  
-    <div class="a">2-06</div>  
-    <div class="b">feito por jokka</div>  
-  </header>    
-
-  <div class="hero">  
-    <div class="card">  
-      <div class="kicker">Agradecimentos</div>  
-      <div class="content">
-        <h2>Agradecimentos</h2>
-
-        <p>E aí, pessoas da minha sala (206). Eu fiz este site para desejar a todos vocês um Feliz Ano Novo.
-        Tem uma pergunta no final do site, então fiquem até lá.</p>
-
-        <p>Eu gostaria de começar agradecendo aos líderes de sala, que fizeram seus trabalhos muito bem.
-        Também gostaria de falar sobre os professores que nos acompanharam neste segundo ano, a maioria 
-        que nós não conhecíamos, mas com quem ainda assim criamos amizades (ou inimizades) e compartilhamos
-        várias risadas. (Gostaria de ressaltar que eu criei um ódio imenso por um certo professor que faltou
-        quase o ano todo.)</p>
-
-        <p>Mudando de assunto, este foi o ano em que eu mais vi pessoas colando, então deixo um agradecimento
-        às pessoas que passaram cola, </p> 
-        <p style="color: red">menos quem passou cola para o Bernardo (brincadeira).</p>
-
-        <p>Desejo a todos um ótimo fim de ano e um Natal incrível, e que no ano que vem todos nós consigamos
-        passar e ao menos chegar perto de realizar nossos sonhos, sejam eles quais forem. Adeus.</p>
-      </div>
-    </div>  
-  </div>    
-
-  <section class="questions">  
-    <div style="padding:0 4px 8px 4px">  
-      <div class="qtitle">Perguntas</div>  
-      <div class="subtitle">Qual foi o seu professor favorito?</div>  
-    </div>  
-    <div style="padding:0 18px 22px 18px">  
-      <div id="optionsArea" class="options"></div>  
-      <div class="side" id="statusBox">Carregando votos...</div>  
-    </div>
-  </section>    
-
-  <footer>2-06 — feito por <strong>jokka</strong></footer>  
-</div>  
-
-<script>  
-const BIN_ID = "69338f43ae596e708f869548";  
-const SECRET_KEY = "$2a$10$mnfEHs7744.YNeplI8p2peGLd.12XoghkaUpfB4Z/GQtJRoU/ONmK";  
-
-const professores = ["José","Dani","Rogério","Bruno","Fernanda","Outro","Nenhum"];  
-const optionsArea = document.getElementById('optionsArea');  
-const statusBox = document.getElementById('statusBox');  
-
-let votes = new Array(professores.length).fill(0);  
-let myChoice = null;  
-
-// --- Monta UI ---  
-function buildUI(){  
-  optionsArea.innerHTML = '';  
-  professores.forEach((nome,i)=>{  
-    const el=document.createElement('div');  
-    el.className='option';  
-    el.dataset.idx=i;  
-    el.innerHTML=`  
-      <div class="row">  
-        <div class="label">${nome}</div>  
-        <div class="barwrap"><div class="bar" style="width:0%"></div></div>  
-        <div class="meta">0% (0)</div>  
-      </div>`;  
-    el.addEventListener('click',()=>handleVote(i));  
-    optionsArea.appendChild(el);  
-  });  
-}  
-buildUI();  
-
-// --- Carrega votos do JSONBin ---  
-async function loadVotes(){  
-  statusBox.textContent='Carregando votos...';  
-  try{  
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{  
-      headers:{'X-Master-Key':SECRET_KEY}  
-    });  
-    const data = await res.json();  
-    if(data.record){  
-      votes = professores.map(p=>Number(data.record[p.toLowerCase()])||0);  
-      renderBars();  
-      statusBox.textContent='Votos carregados';  
-    }  
-  }catch(e){console.error(e); statusBox.textContent='Erro ao carregar votos';}  
-}  
-loadVotes();  
-
-function renderBars(){  
-  const total = votes.reduce((a,b)=>a+b,0)||1;  
-  optionsArea.querySelectorAll('.option').forEach((el,i)=>{  
-    const pct = (votes[i]/total*100).toFixed(1);  
-    el.querySelector('.bar').style.width=pct+'%';  
-    el.querySelector('.meta').textContent=`${pct}% (${votes[i]})`;  
-    el.classList.toggle('selected', myChoice===i);  
-  });  
-}  
-
-// --- Lógica de voto: troca automática ---  
-async function handleVote(idx){  
-  if(myChoice!==null) votes[myChoice]--;  
-  myChoice=idx;  
-  votes[idx]++;  
-  renderBars();  
-  statusBox.textContent='Atualizando voto...';  
-
-  const payload={};  
-  professores.forEach((p,i)=>payload[p.toLowerCase()]=votes[i]);  
-
-  try{  
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{  
-      method:'PUT',  
-      headers:{  
-        'Content-Type':'application/json',  
-        'X-Master-Key':SECRET_KEY,  
-        'X-Bin-Version':'latest'  
-      },  
-      body:JSON.stringify(payload)  
-    });  
-    statusBox.textContent='Voto atualizado!';  
-  }catch(e){console.error(e); statusBox.textContent='Erro ao atualizar voto';}  
-}  
-</script>  
-</body>  
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameZone News</title>
+</head><body style="margin:0;font-family:Arial;background:#0f172a;color:#e5e7eb;"><!-- HEADER --><div style="background:#020617;padding:15px 20px;">
+  <div style="font-size:24px;font-weight:bold;">NOITADA.com</div>
+  <div style="margin-top:10px;">
+    <span style="margin-right:20px;cursor:pointer;">Home</span>
+    <span style="margin-right:20px;cursor:pointer;">Outras notícias</span>
+    <span style="cursor:pointer;">Jogos de graça hoje</span>
+  </div>
+</div><!-- CONTEÚDO --><div style="display:grid;grid-template-columns:3fr 1fr;gap:20px;padding:20px;"><div style="background:#1e293b;padding:20px;border-radius:10px;"><h1>StrikeWall: novo multiplayer coop chama atenção na Steam</h1><img src="https://conteudo.imguol.com.br/c/entretenimento/5c/2017/12/15/steam-library-1513352750865_v2_4x3.jpg" style="width:100%;border-radius:10px;"><p>
+Um novo jogo multiplayer online chamado <b>StrikeWall</b> está ganhando popularidade entre jogadores que buscam experiências cooperativas intensas.
+</p><img src="https://cdn.maioresemelhores.com/imagens/maiores-e-melhores-jogos-multiplayer-para-android-farlight-84.jpg" style="width:100%;border-radius:10px;"><p>
+O título coloca equipes de 4 jogadores em confronto direto contra outro time, com mapas divididos por grandes muralhas e múltiplas estratégias possíveis.
+</p><p>
+Um dos destaques do jogo é o sistema de fogo amigo, que adiciona um nível extra de dificuldade e momentos imprevisíveis durante as partidas.
+Além disso, algumas armas dependem de comandos de voz para funcionar corretamente.
+</p><p style="margin-top:20px;font-weight:bold;">
+o link do jogo no steam!.:
+</p><button onclick="mostrarErro()" style="width:100%;padding:15px;font-size:18px;background:#22c55e;border:none;border-radius:10px;cursor:pointer;font-weight:bold;">
+Ver na Steam
+</button><div id="erro" style="display:none;margin-top:20px;color:#ef4444;font-size:20px;text-align:center;">
+Erro 568: Esse site não está mais disponível.
+</div><h2>Vídeos recomendados</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqeITcncvbcorhKJ7qgr6POpR0CMFKi6OfrmFyLrpx1XVtAH1jZcfD1bzb&s=10" style="width:100%;border-radius:8px;">
+<p style="font-size:13px;">Gameplay com amigos</p>
+</div><div>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRboq406ncJqoUfxxZLQAwRMV1z-2-jxMaj8MWJB2afqwTSt8bFd66sKgoi&s=10" style="width:100%;border-radius:8px;">
+<p style="font-size:13px;">Top multiplayer recentes</p>
+</div><div>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLJHpek95qv4jH7TXMaS7cWYkgyV2EEj2Mg-QYNvfZ5gWfVzDQ3T9ogoQ&s=10" style="width:100%;border-radius:8px;">
+<p style="font-size:13px;">Momentos engraçados</p>
+</div><div>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmATpmVj3edeu-HpO9gMu8TqlDMxWolC9LDdsZbIjkbDWRt3O6R5Zx6LoN&s=10" style="width:100%;border-radius:8px;">
+<p style="font-size:13px;">Highlights do jogo</p>
+</div></div></div><div></div></div><!-- POPUPS --><div id="popup1" style="position:fixed;top:20px;left:20px;width:250px;background:white;color:black;padding:10px;border-radius:10px;box-shadow:0 0 20px black;">
+<span onclick="fechar('popup1')" style="float:right;cursor:pointer;font-weight:bold;">X</span>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJdClAta782UabTNP8ROk4PQAww-z8TRUqJBz_Q_0zvZsCLEtb4XuLfprJ&s=10" style="width:100%;">
+<p>Você ganhou um prêmio</p>
+</div><div id="popup2" style="position:fixed;bottom:20px;right:20px;width:250px;background:white;color:black;padding:10px;border-radius:10px;box-shadow:0 0 20px black;">
+<span onclick="fechar('popup2')" style="float:right;cursor:pointer;font-weight:bold;">X</span>
+<img src="https://design-assets.adobeprojectm.com/content/download/express/public/urn:aaid:sc:VA6C2:1545f210-20ca-5e16-b1fa-ebd00a529a8f/component?assetType=TEMPLATE&etag=f427ad722581436cae09ca71c133fd8f&revision=4051f386-e3fc-4d53-94e1-b3063b5d721c&component_id=a87a105d-17c6-4223-af58-b8d1769b8fba" style="width:100%;">
+<p>Oferta limitada</p>
+</div><script>
+function mostrarErro(){
+document.getElementById("erro").style.display="block";
+}
+function fechar(id){
+document.getElementById(id).style.display="none";
+}
+</script></body>
 </html>
