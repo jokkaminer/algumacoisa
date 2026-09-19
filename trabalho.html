@@ -1,135 +1,458 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Slang, Accents & Youth Culture</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f0f4f8;
-      color: #333;
-      line-height: 1.6;
-    }
-    header {
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
-      color: white;
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    header h1 {
-      font-size: 2.8em;
-      margin-bottom: 10px;
-    }
-    header p {
-      font-size: 1.2em;
-      opacity: 0.9;
-    }
-    section {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      padding: 30px;
-      margin-bottom: 30px;
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-    h2 {
-      color: #6e8efb;
-      margin-bottom: 15px;
-    }
-    footer {
-      background: #222;
-      color: #aaa;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      font-size: 0.9em;
-    }
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2em;
-      }
-      .card {
-        padding: 20px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Análise do Gatito</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #4a3040;
+            background:
+                radial-gradient(circle at 10% 10%, #ffd9e8 0, transparent 28%),
+                radial-gradient(circle at 90% 90%, #f7c7dc 0, transparent 30%),
+                linear-gradient(135deg, #fff5f9, #ffe8f1);
+        }
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(135deg, #fff1f7, #ffdce9);
+
+            animation: desaparecer 0.7s ease 2s forwards;
+        }
+
+        .loading-text {
+            color: #d85c8b;
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: 1px;
+
+            animation: pensar 1.2s ease-in-out infinite;
+        }
+
+        .pagina {
+            width: 100%;
+            max-width: 720px;
+            margin: auto;
+            padding: 25px 15px 50px;
+
+            opacity: 0;
+            animation: aparecer 1s ease 2.2s forwards;
+        }
+
+        .caixa {
+            position: relative;
+            overflow: hidden;
+
+            background: rgba(255, 250, 253, 0.92);
+            border: 2px solid #f4b7d0;
+            border-radius: 28px;
+
+            padding: 25px 20px;
+
+            box-shadow:
+                0 15px 40px rgba(190, 80, 125, 0.15),
+                0 3px 10px rgba(190, 80, 125, 0.08);
+        }
+
+        .caixa::before {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #ffd8e7;
+            top: -70px;
+            right: -50px;
+            opacity: 0.6;
+        }
+
+        .caixa::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #ffe5ef;
+            bottom: -45px;
+            left: -35px;
+            opacity: 0.7;
+        }
+
+        h1 {
+            position: relative;
+            z-index: 1;
+
+            margin: 0 0 25px;
+
+            text-align: center;
+
+            color: #c94f80;
+            font-size: 23px;
+            line-height: 1.3;
+        }
+
+        .miau {
+            position: relative;
+            z-index: 1;
+
+            text-align: center;
+
+            color: #a83f69;
+            font-size: 23px;
+            font-weight: bold;
+
+            margin: 18px 0 20px;
+        }
+
+        .texto {
+            position: relative;
+            z-index: 1;
+
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .texto p {
+            margin: 0 0 18px;
+        }
+
+        .gato-aviso {
+            margin: 20px 0 25px;
+            text-align: center;
+        }
+
+        .gato-aviso p {
+            margin: 0 0 12px;
+
+            color: #bd5a82;
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* PRIMEIRO GATO */
+
+        .gato {
+            display: block;
+
+            width: 100%;
+            max-width: 330px;
+            height: auto;
+
+            margin: 0 auto;
+
+            border-radius: 20px;
+            border: 4px solid #f5bfd5;
+
+            box-shadow:
+                0 8px 20px rgba(180, 70, 115, 0.18);
+        }
+
+        /* IMAGENS ILUSTRATIVAS */
+
+        .ilustracao {
+            position: relative;
+
+            display: block;
+
+            width: calc(100% - 20px);
+            max-width: 430px;
+            height: auto;
+
+            margin: 35px auto 45px;
+            padding: 8px;
+
+            background: linear-gradient(
+                145deg,
+                #fff,
+                #ffe5f0
+            );
+
+            border: 2px solid #efabc8;
+            border-radius: 22px;
+
+            box-shadow:
+                0 10px 25px rgba(184, 70, 120, 0.18),
+                0 0 0 7px rgba(255, 214, 231, 0.45);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .ilustracao::before {
+            content: "♡";
+
+            position: absolute;
+
+            top: -17px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fff5fa;
+            border: 2px solid #efabc8;
+            border-radius: 50%;
+
+            color: #d85c8b;
+            font-size: 16px;
+
+            z-index: 2;
+        }
+
+        .ilustracao:hover {
+            transform: translateY(-3px) rotate(0.3deg);
+
+            box-shadow:
+                0 15px 30px rgba(184, 70, 120, 0.23),
+                0 0 0 8px rgba(255, 214, 231, 0.55);
+        }
+
+        .mensagem {
+            padding: 20px;
+
+            background: linear-gradient(
+                145deg,
+                #fff1f7,
+                #ffe7f0
+            );
+
+            border: 1px solid #f5c5d8;
+            border-radius: 20px;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .mensagem p:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes desaparecer {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pensar {
+            0%, 100% {
+                opacity: 0.45;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-4px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pagina {
+                padding: 15px 10px 35px;
+            }
+
+            .caixa {
+                padding: 22px 16px;
+                border-radius: 24px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .miau {
+                font-size: 21px;
+            }
+
+            .texto {
+                font-size: 15px;
+                line-height: 1.65;
+            }
+
+            .mensagem {
+                padding: 17px;
+            }
+
+            .gato {
+                max-width: 100%;
+            }
+
+            .ilustracao {
+                width: calc(100% - 10px);
+
+                margin-top: 40px;
+                margin-bottom: 50px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <header>
-    <h1>English in Real Life</h1>
-    <p>Slang, Abbreviations & Accents Shaping Our Generation</p>
-    <p><strong>Class 206 - Bolívar de Freitas</strong></p>
-  </header>
-
-  <section>
-    <div class="card">
-      <h2>🗯️ Slang & Abbreviations</h2>
-      <p>
-        Teenagers today speak a new kind of English. Words like “lit”, “sus”, “bruh”, and abbreviations like “LOL”, “OMG”, and “IDK” are everywhere — in chats, games, and memes.
-      </p>
-      <p>
-        These expressions make language more fun and expressive — they create a connection between young people globally!
-      </p>
-      <img src="https://miro.medium.com/v2/resize:fit:2560/1*2iowC0TFG0tN79ucZTs48w.png" alt="Slang example meme" />
+    <div class="loading">
+        <div class="loading-text">
+            Hummmmmmm...
+        </div>
     </div>
 
-    <div class="card">
-      <h2>🎮 Accents in Games</h2>
-      <p>
-        Video games use accents to create realistic characters. In <strong>Red Dead Redemption</strong>, you hear strong American Southern accents — perfect for a cowboy setting!
-      </p>
-      <p>
-        In <strong>GTA V</strong>, characters speak with Californian slang and AAVE (African-American Vernacular English), showing how language reflects culture.
-      </p>
-      <img src="https://ultimaficha.com.br/wp-content/uploads/2019/01/RDR-2-Arthur.jpg" alt="Red Dead Redemption Accent Scene" />
-    </div>
+    <main class="pagina">
 
-    <div class="card">
-      <h2>🎥 Accents in Movies</h2>
-      <p>
-        In <strong>Harry Potter</strong>, characters speak with different British accents — posh (Hermione), Cockney (Hagrid), or standard (Harry). It's a magical way to learn how diverse English can be.
-      </p>
-      <p>
-        Shows like <strong>Peaky Blinders</strong> use very strong accents from Birmingham — even native speakers need subtitles sometimes!
-      </p>
-      <img src="https://rollingstone.com.br/media/uploads/2024/02/roteirista-de-succession-pode-comandar-nova-adaptacao-de-harry-potter-foto-divulgacaowarner-bros-pictures.jpg" alt="Harry Potter Characters Speaking" />
-    </div>
+        <div class="caixa">
 
-    <div class="card">
-      <h2>💬 Final Thoughts</h2>
-      <p>
-        English isn't just grammar and rules. It's music, memes, slang, and voices from around the world. Learning English means understanding how people actually talk.
-      </p>
-      <p>
-        And guess what? Games and movies make that learning fun and natural!
-      </p>
-    </div>
-  </section>
+            <h1>
+                Pela análise minuciosa do gatito, ele diz...
+            </h1>
 
-  <footer>
-    &copy; 2025 - English Project by Class 206, Bolívar de Freitas 💜
-  </footer>
+            <div class="miau">
+                — miau —
+            </div>
+
+            <div class="texto">
+
+                <p>
+                    — esqueci que gatos não falam... É... Então lê isso...:
+                </p>
+
+                <div class="gato-aviso">
+
+                    <p>
+                        (que raiva, não achei nenhuma imagem de um gato bebe laranja sem fundo)
+                    </p>
+
+                    <img
+                        class="gato"
+                        src="https://thumbs.dreamstime.com/b/um-gato-do-beb%C3%AA-fotografado-no-est%C3%BAdio-11060188.jpg"
+                        alt="Gato bebê laranja"
+                    >
+
+                </div>
+
+                <div class="mensagem">
+
+                    <p>
+                        "Olá, desculpa ter feito esse site, eu quase nem te conheço,
+                        mas você parece legal e até agora, é bem legal.
+                    </p>
+
+                    <p>
+                        Você gosta de desenhar, e eu vejo isso como uma forma de
+                        expressão tal qual Van Gogh fazia. Falando neste grande pintor
+                        que colocava suas lutas no papel como uma forma de tornar suas
+                        angústias vistas e mais vividas, qual o seu artista favorito?
+                        No sentido de artes mesmo.
+                    </p>
+
+                    <p>
+                        Mudando de assunto: como vai a leitura do livro
+                        "Auchemised"? Tá legal? (Acho que tem umas 900 páginas... Né?)
+                    </p>
+
+                    <img
+                        class="ilustracao"
+                        src="https://m.media-amazon.com/images/I/61DcnorH9ML._AC_UF1000,1000_QL80_.jpg"
+                        alt="Capa do livro Auchemised"
+                    >
+
+                    <p>
+                        Fiz esse site para te perguntar algumas coisas que eu não sei
+                        como dizer :/ ...desculpe.
+                    </p>
+
+                    <p>
+                        Qual a melhor estação do ano para você?
+                    </p>
+
+                    <img
+                        class="ilustracao"
+                        src="https://www.infoescola.com/wp-content/uploads/2008/10/primavera.jpg"
+                        alt="Imagem representando a primavera"
+                    >
+
+                    <p>
+                        (Gosto bastante do outono, aliás eu tinha te mandado um vídeo
+                        da minha música "relaxing fall", mas tu não viu 😭😭😭😭)
+                    </p>
+
+                    <p>
+                        Qual o seu anime favorito?
+                    </p>
+
+                    <img
+                        class="ilustracao"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHOA0fAjpcOUBP7mLWqBZJSiDcUdjTJ2PiIyLHgmpG_A&s=10"
+                        alt="Imagem de anime"
+                    >
+
+                    <p>
+                        Qual o seu animal favorito? (O meu são os ratos... Brincadeira,
+                        mas escrevendo isso eu me lembrei de "Chainsaw Man" — mas tu não
+                        é nerd o suficiente para entender... Brincadeira)
+                    </p>
+
+                    <img
+                        class="ilustracao"
+                        src="https://cdn.britannica.com/94/494-050-A674AD3A/Fallow-deer-dama-dama.jpg"
+                        alt="Cervo"
+                    >
+
+                    <p>
+                        Cara, seu cabelo é muito bonito... (Sim, do nada um elogio...
+                        Sorry bro ✌️ 😭)
+                    </p>
+
+                    <p>
+                        ...É só isso... Por enquanto... Muwerere..."
+                    </p>
+
+                    <img
+                        class="ilustracao"
+                        src="https://avatars.akamai.steamstatic.com/8dda327bdd36669a0dcefbb353345f99aeb4460c_full.jpg"
+                        alt="Imagem ilustrativa"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
