@@ -1,35 +1,226 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GameZone News</title>
-</head><body style="margin:0;font-family:Arial;background:#0f172a;color:#e5e7eb;"><div style="background:#020617;padding:15px 20px;">
-  <div style="font-size:22px;font-weight:bold;">GameZone News</div>
-  <div style="margin-top:10px;font-size:14px;">
-    <span style="margin-right:15px;">Home</span>
-    <span style="margin-right:15px;">Outras notícias</span>
-    <span>Jogos de graça hoje</span>
-  </div>
-</div><div id="container" style="display:grid;grid-template-columns:3fr 1fr;gap:20px;padding:20px;"><div style="background:#1e293b;padding:20px;border-radius:10px;"><h1 style="font-size:22px;">StrikeWall: novo multiplayer coop chama atenção na Steam</h1><img src="https://conteudo.imguol.com.br/c/entretenimento/5c/2017/12/15/steam-library-1513352750865_v2_4x3.jpg" style="width:100%;border-radius:10px;"><p>Um novo jogo multiplayer online chamado <b>StrikeWall</b> está ganhando popularidade.</p><img src="https://cdn.maioresemelhores.com/imagens/maiores-e-melhores-jogos-multiplayer-para-android-farlight-84.jpg" style="width:100%;border-radius:10px;"><p>Equipes de 4 jogadores enfrentam inimigos em mapas com muralhas, fogo amigo e armas por voz.</p><p style="margin-top:20px;font-weight:bold;">
-o link do jogo no steam!.:
-</p><button onclick="abrirLink()" style="width:100%;padding:12px;font-size:16px;background:#22c55e;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">
-Ver na Steam
-</button><div id="erro" style="display:none;margin-top:15px;color:#ef4444;font-size:18px;text-align:center;">
-Erro 568: Esse site não está mais disponível.
-</div></div><div></div></div><script>
-function abrirLink(){
-  // abre o link em nova aba
-  window.open("https://iplogger.co/djdjrhdjsnshsienebsyziamwndgdksnebshsjsnsbshjsbsbcom", "_blank");
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  // mostra erro depois de 1 segundo
-  setTimeout(function(){
-    document.getElementById("erro").style.display = "block";
-  }, 1000);
-}
+    <title>Oiiiiiii, e ai!</title>
 
-/* responsivo */
-if(window.innerWidth < 800){
-  document.getElementById("container").style.gridTemplateColumns = "1fr";
-}
-</script></body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: #b5e2ed;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            background: #ffffff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(65, 113, 130, 0.15);
+            animation: aparecer 0.8s ease;
+        }
+
+        .parte-superior {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: #ff969e;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .gato {
+            width: 88%;
+            height: 100%;
+            object-fit: contain;
+            object-position: bottom;
+            transition: transform 0.4s ease;
+        }
+
+        .gato:hover {
+            transform: scale(1.04);
+        }
+
+        .conteudo {
+            padding: 35px 25px 38px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        h1 {
+            color: #242424;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 20px;
+        }
+
+        .descricao {
+            color: #777777;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .botao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 58px;
+            padding: 16px 20px;
+
+            background: #ff969e;
+            color: #252525;
+
+            border: none;
+            border-radius: 14px;
+
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.6;
+            text-align: center;
+            text-decoration: none;
+
+            box-shadow: 0 5px 0 #e77f88;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .botao:hover {
+            background: #ff858f;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #e77f88;
+        }
+
+        .botao:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #e77f88;
+        }
+
+        .aviso-botao {
+            margin-top: 14px;
+            color: #e04b55;
+            font-size: 19px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                border-radius: 18px;
+            }
+
+            .parte-superior {
+                height: 300px;
+            }
+
+            .conteudo {
+                padding: 30px 20px 28px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .descricao {
+                font-size: 14px;
+            }
+
+            .botao {
+                font-size: 13px;
+                padding: 15px;
+            }
+
+            .aviso-botao {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-height: 650px) {
+            body {
+                align-items: flex-start;
+            }
+
+            .parte-superior {
+                height: 260px;
+            }
+
+            .conteudo {
+                padding-top: 25px;
+                padding-bottom: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="parte-superior">
+
+            <img
+                class="gato"
+                src="https://marketplace.canva.com/lSPRw/MAFi_SlSPRw/1/tl/canva-gato-bonito-MAFi_SlSPRw.png"
+                alt="Gato fofo"
+            >
+
+        </section>
+
+        <section class="conteudo">
+
+            <h1>Oiiiiiii, e ai!</h1>
+
+            <p class="descricao">
+                Esse gato fofo está te encarando (coloquei um gato pq adoro gatos)
+            </p>
+
+            <a class="botao" href="trabalho.html">
+                Clique aqui e saiba o que ele acha de você
+            </a>
+
+            <p class="aviso-botao">
+                (não ligue muito, às vezes ele pode ser bem grosso, mesmo com esse rostinho)
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
 </html>
