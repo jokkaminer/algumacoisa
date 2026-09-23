@@ -1,187 +1,256 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>site legal...</title>
+    <title>sei lá...</title>
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
+            margin: 0;
             min-height: 100vh;
-            min-height: 100dvh;
-            background: #b5e2ed;
+            background: #f8f9fa;
             font-family: Arial, Helvetica, sans-serif;
+            color: #202124;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
+            padding: 30px 16px;
         }
 
         .container {
             width: 100%;
-            max-width: 430px;
+            max-width: 760px;
             background: #ffffff;
-            border-radius: 22px;
-            overflow: hidden;
-            box-shadow: 0 15px 45px rgba(65, 113, 130, 0.15);
-            animation: aparecer 0.8s ease;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            padding: 45px 50px;
+            box-shadow: 0 4px 18px rgba(60, 64, 67, 0.08);
         }
 
-        .parte-superior {
-            position: relative;
-            width: 100%;
-            height: 350px;
-            background: #ff969e;
+        .erro {
             display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .icone {
+            width: 34px;
+            height: 34px;
+            border: 2px solid #9aa0a6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: flex-end;
-            overflow: hidden;
-        }
-
-        .gato {
-            width: 88%;
-            height: 100%;
-            object-fit: contain;
-            object-position: bottom;
-            transition: transform 0.4s ease;
-        }
-
-        .gato:hover {
-            transform: scale(1.04);
-        }
-
-        .conteudo {
-            padding: 35px 25px 38px;
-            text-align: center;
-            background: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         h1 {
-            color: #242424;
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -0.8px;
-            margin-bottom: 20px;
-        }
-
-        .descricao {
-            color: #777777;
-            font-size: 15px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .botao {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            min-height: 58px;
-            padding: 16px 20px;
-
-            background: #ff969e;
-            color: #252525;
-
-            border: none;
-            border-radius: 14px;
-
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 1.6;
-            text-align: center;
-            text-decoration: none;
-
-            box-shadow: 0 5px 0 #e77f88;
-            transition: all 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .botao:hover {
-            background: #ff858f;
-            transform: translateY(-2px);
-            box-shadow: 0 7px 0 #e77f88;
-        }
-
-        .botao:active {
-            transform: translateY(3px);
-            box-shadow: 0 2px 0 #e77f88;
-        }
-
-        .aviso-botao {
-            margin-top: 14px;
-            color: #e04b55;
             font-size: 19px;
-            line-height: 1.5;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0 0 24px;
+            color: #3c4043;
+        }
+
+        .principal {
+            font-size: 24px;
+            line-height: 1.35;
+            color: #202124;
+            margin-bottom: 35px;
+        }
+
+        .mensagem {
+            background: #f8f9fa;
+            border: 1px solid #e8eaed;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .mensagem h1 {
+            margin-bottom: 0;
+        }
+
+        .imagem {
+            display: block;
+            width: 100%;
+            max-width: 430px;
+            margin: 35px auto;
+            border-radius: 18px;
+            opacity: 0.9;
+        }
+
+        .final {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #e8eaed;
+            font-size: 18px;
+            color: #5f6368;
+        }
+
+        /* JOGO */
+
+        .jogo-card {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e8eaed;
+        }
+
+        .jogo-titulo {
+            font-size: 18px;
+            color: #3c4043;
+            margin-bottom: 12px;
+        }
+
+        .jogo-subtitulo {
+            font-size: 14px;
+            color: #80868b;
+            margin-bottom: 18px;
+        }
+
+        #jogo {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #dadce0;
+            border-radius: 16px;
+            cursor: pointer;
+            user-select: none;
+            touch-action: pan-y;
+        }
+
+        #pontuacao {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            z-index: 10;
+            font-size: 14px;
+            color: #5f6368;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #chao {
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #dadce0;
+        }
+
+        #dino {
+            position: absolute;
+            left: 45px;
+            bottom: 26px;
+            width: 38px;
+            height: 48px;
+            object-fit: contain;
+            z-index: 3;
+        }
+
+        #obstaculo {
+            position: absolute;
+            bottom: 26px;
+            left: 100%;
+            width: 25px;
+            height: 25px;
+            object-fit: contain;
+            z-index: 3;
+        }
+
+        .pulando {
+            animation: pulo 0.55s ease-out;
+        }
+
+        @keyframes pulo {
+            0% {
+                bottom: 26px;
+            }
+
+            45% {
+                bottom: 105px;
+            }
+
+            100% {
+                bottom: 26px;
+            }
+        }
+
+        #mensagem-jogo {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 20;
             text-align: center;
+            color: #5f6368;
         }
 
-        @keyframes aparecer {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #mensagem-jogo strong {
+            font-size: 17px;
+            color: #3c4043;
+            margin-bottom: 6px;
         }
 
-        @media (max-width: 380px) {
+        #mensagem-jogo span {
+            font-size: 13px;
+        }
+
+        #reiniciar {
+            margin-top: 12px;
+            border: none;
+            border-radius: 20px;
+            background: #1a73e8;
+            color: white;
+            padding: 9px 18px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        #reiniciar:hover {
+            background: #1769d1;
+        }
+
+        @media (max-width: 600px) {
             body {
-                padding: 12px;
-            }
-
-            .container {
-                border-radius: 18px;
-            }
-
-            .parte-superior {
-                height: 300px;
-            }
-
-            .conteudo {
-                padding: 30px 20px 28px;
-            }
-
-            h1 {
-                font-size: 27px;
-            }
-
-            .descricao {
-                font-size: 14px;
-            }
-
-            .botao {
-                font-size: 13px;
                 padding: 15px;
-            }
-
-            .aviso-botao {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-height: 650px) {
-            body {
                 align-items: flex-start;
             }
 
-            .parte-superior {
-                height: 260px;
+            .container {
+                margin-top: 15px;
+                padding: 30px 24px;
+                border-radius: 20px;
             }
 
-            .conteudo {
-                padding-top: 25px;
-                padding-bottom: 28px;
+            .principal {
+                font-size: 22px;
+            }
+
+            h1 {
+                font-size: 17px;
+            }
+
+            #jogo {
+                height: 160px;
+            }
+
+            #dino {
+                left: 30px;
             }
         }
     </style>
@@ -191,36 +260,258 @@
 
     <main class="container">
 
-        <section class="parte-superior">
+        <div class="erro">
+            <div class="icone">!</div>
+            <span>Esta página não está disponível</span>
+        </div>
 
-            <img
-                class="gato"
-                src="https://marketplace.canva.com/lSPRw/MAFi_SlSPRw/1/tl/canva-gato-bonito-MAFi_SlSPRw.png"
-                alt="Gato fofo"
-            >
+        <h1 class="principal">
+            E ai! Desabilitei esse site, sei la, não vou usar ele...
+        </h1>
 
-        </section>
+        <h1>
+            Eu estava esperando uma resposta, mas eu acabei não recebendo,
+            então vai ficar vazio.
+        </h1>
 
-        <section class="conteudo">
+        <div class="mensagem">
+            <h1>
+                Espero que a pessoa que esteja vendo isso, ela quem for,
+                seja feliz com as coisas que te fazem feliz. Disfarce sua
+                infelicidade com vídeos de 30 segundos, pessoas recicláveis,
+                acho que você deve acreditar nisso... kk
+            </h1>
+        </div>
 
-            <h1>Oiiiiiii, e ai!</h1>
+        <h1>
+            Talvez a futilidade seja uma benção que leve com ela a felicidade, kk.
+        </h1>
 
-            <p class="descricao">
-                Esse gato fofo está te encarando (coloquei um gato pq adoro gatos)
-            </p>
+        <h1>
+            Não acho que as pessoas podem ser felizes, pois acho que esse é
+            um estado momentâneo e que acaba em certa parte, algo formado
+            pela nossa mente, tal qual as lembranças, coisas irreais, sem
+            sentido e que, em algum momento nos deixaram, talvez esse seja
+            o lado bom de estar realmente vivo, perceber que as pessoas
+            têm vidas também.
+        </h1>
 
-            <a class="botao" href="trabalho.html">
-                Clique aqui e saiba o que ele acha de você
-            </a>
+        <img
+            class="imagem"
+            src="https://universodafilosofia.com/wp-content/uploads/2018/02/nietzsche_felicidade.jpg"
+            alt="Imagem relacionada a Nietzsche"
+        >
 
-            <p class="aviso-botao">
-                (não ligue muito, às vezes ele pode ser bem grosso, mesmo com esse rostinho)
-            </p>
+        <h1 class="final">
+            Se está lendo isso, tente viver.
+        </h1>
+
+        <section class="jogo-card">
+
+            <div class="jogo-titulo">
+                Ah, e tem isso aqui...
+            </div>
+
+            <div class="jogo-subtitulo">
+                Espaço, seta para cima ou toque no jogo para pular.
+            </div>
+
+            <div id="jogo">
+
+                <div id="pontuacao">
+                    00000
+                </div>
+
+                <div id="mensagem-jogo">
+                    <strong>Pressione para começar</strong>
+                    <span>Pule os obstáculos.</span>
+                </div>
+
+                <img
+                    id="dino"
+                    src="https://play-lh.googleusercontent.com/YAdlxXdSFvbPyxQE25oRVMRXcc_6_OCVugoH2JKO4_1bFFwrBGKWOkwrRn5gzIPmDqKD29Qk0_V1HsTsEjhSpA=w240-h480"
+                    alt="Dinossauro"
+                >
+
+                <img
+                    id="obstaculo"
+                    src="https://media.istockphoto.com/id/468438596/pt/vetorial/coração-de-pixel.jpg?s=612x612&w=0&k=20&c=QqMdr4J8vdEhJQ1vTw5xW-K2glGvb9gEVXllL0fn2d4="
+                    alt="Obstáculo"
+                >
+
+                <div id="chao"></div>
+
+            </div>
 
         </section>
 
     </main>
 
-</body>
+    <script>
+        const jogo = document.getElementById("jogo");
+        const dino = document.getElementById("dino");
+        const obstaculo = document.getElementById("obstaculo");
+        const pontuacao = document.getElementById("pontuacao");
+        const mensagem = document.getElementById("mensagem-jogo");
 
+        let jogando = false;
+        let pontos = 0;
+        let velocidade = 4;
+        let posicaoObstaculo = 0;
+
+        let tempoInicio = 0;
+        let ultimoTempo = 0;
+
+        let recorde = Number(localStorage.getItem("recordeDino")) || 0;
+
+        function iniciar() {
+            if (jogando) return;
+
+            jogando = true;
+            pontos = 0;
+            velocidade = 4;
+
+            tempoInicio = performance.now();
+            ultimoTempo = tempoInicio;
+
+            posicaoObstaculo = jogo.offsetWidth + 50;
+
+            obstaculo.style.left = posicaoObstaculo + "px";
+
+            mensagem.style.display = "none";
+
+            requestAnimationFrame(loop);
+        }
+
+        function pular() {
+            if (!jogando) {
+                iniciar();
+                return;
+            }
+
+            if (dino.classList.contains("pulando")) return;
+
+            dino.classList.add("pulando");
+
+            setTimeout(() => {
+                dino.classList.remove("pulando");
+            }, 550);
+        }
+
+        function colisao() {
+            const d = dino.getBoundingClientRect();
+            const o = obstaculo.getBoundingClientRect();
+
+            return (
+                d.left < o.right - 5 &&
+                d.right > o.left + 5 &&
+                d.top < o.bottom - 5 &&
+                d.bottom > o.top + 5
+            );
+        }
+
+        function fimDeJogo() {
+            jogando = false;
+
+            if (pontos > recorde) {
+                recorde = pontos;
+                localStorage.setItem("recordeDino", recorde);
+            }
+
+            mensagem.innerHTML = `
+                <strong>Fim de jogo</strong>
+                <span>Pontuação: ${pontos} · Recorde: ${recorde}</span>
+                <button id="reiniciar">Jogar novamente</button>
+            `;
+
+            mensagem.style.display = "flex";
+
+            document
+                .getElementById("reiniciar")
+                .addEventListener("click", function(e) {
+                    e.stopPropagation();
+                    iniciar();
+                });
+        }
+
+        function loop(tempoAtual) {
+            if (!jogando) return;
+
+            const delta = (tempoAtual - ultimoTempo) / 16.67;
+            ultimoTempo = tempoAtual;
+
+            /* TEMPO VIVO */
+
+            const segundos = Math.floor(
+                (tempoAtual - tempoInicio) / 1000
+            );
+
+            /* 50 PONTOS POR SEGUNDO */
+
+            pontos = segundos * 50;
+
+            pontuacao.textContent =
+                String(pontos).padStart(5, "0");
+
+            /* VELOCIDADE */
+
+            velocidade = 4 + (segundos * 0.18);
+
+            /* MOVIMENTO DO OBSTÁCULO */
+
+            posicaoObstaculo -= velocidade * delta;
+
+            if (posicaoObstaculo < -40) {
+                posicaoObstaculo =
+                    jogo.offsetWidth + 80 + Math.random() * 180;
+            }
+
+            obstaculo.style.left =
+                posicaoObstaculo + "px";
+
+            /* COLISÃO */
+
+            if (colisao()) {
+                fimDeJogo();
+                return;
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        /* TECLADO */
+
+        document.addEventListener("keydown", function(e) {
+
+            if (
+                e.code === "Space" ||
+                e.code === "ArrowUp"
+            ) {
+                e.preventDefault();
+                pular();
+            }
+
+        });
+
+        /* MOUSE */
+
+        jogo.addEventListener("click", function(e) {
+
+            if (e.target.id === "reiniciar") return;
+
+            pular();
+
+        });
+
+        /* CELULAR
+           Não usamos preventDefault aqui,
+           então a página continua podendo rolar normalmente. */
+
+        jogo.addEventListener("touchstart", function() {
+            pular();
+        }, { passive: true });
+
+    </script>
+
+</body>
 </html>
