@@ -782,9 +782,10 @@ details.sc summary {
       <div id="seg"><button id="mN" class="on">🚗 Normal</button><button id="mO">🌐 Online</button></div>
       <div id="onl" style="display:none"><input id="nm" maxlength="14" placeholder="Seu nome" style="width:90%;max-width:260px">
 <div id="oSeg"><button id="oC" class="on">➕ Criar sala</button><button id="oJ">🔑 Entrar numa sala</button></div>
-<div id="oCode"><small>Código da sala (passe para os amigos)</small><b id="oBig">-----</b><button id="oCp">📋 Copiar convite</button></div>
-<input id="rc" maxlength="12" placeholder="Digite o código da sala" style="display:none;width:90%;max-width:260px">
-<p id="oh">Todos abrem o mesmo link do jogo. Quem cria a sala passa o código; os outros tocam em “Entrar numa sala” e digitam. Maiúsculas e espaços não importam.</p></div>
+<div id="oPrivacy" style="margin:10px 0"><small>Tipo de sala</small><div><button id="oPublic" class="on">🌐 Pública</button><button id="oPrivate">🔒 Privada</button></div></div>
+<div id="oCode"><small id="oCodeLabel">Código da sala (passe para os amigos)</small><b id="oBig">-----</b><button id="oCp">📋 Copiar convite</button></div>
+<div id="oJoinArea" style="display:none"><input id="rc" maxlength="12" placeholder="Código da sala privada" style="width:90%;max-width:260px"><button id="oRefresh">↻ Atualizar salas</button><div id="oRoomList"><small>Carregando salas públicas...</small></div></div>
+<p id="oh">Salas públicas aparecem na lista. Salas privadas não aparecem e só aceitam quem tiver o código.</p></div>
     </section>
     <section class="sc"><h3>Qualidade gráfica</h3>
       <div id="qrow"><button class="qb" data-q="0">Baixa</button><button class="qb" data-q="1">Média</button><button class="qb" data-q="2">Alta</button></div>
@@ -1604,6 +1605,7 @@ details.sc summary {
         }
         );
         return {
+            c:netRM.c,
             join:function(n) {
                 return netJoin(netRM.c,n)
             }
@@ -1806,6 +1808,67 @@ details.sc summary {
         }
         )
     }
+    // Diretório temporário de salas: usa Presence do Supabase, sem precisar criar tabela.
+    var lobby=null,lobbyReady=null,lobbyListeners=[],lobbyUIBound=false,oVisibility='public',oIsHost=false,lobbyTimer=0;
+    async function netLobby(){
+        if(lobby&&lobby.connected())return lobby;
+        if(lobbyReady)return lobbyReady;
+        lobbyReady=(async function(){
+            var RM=await netRM(),sb=RM.c;
+            lobby=await new Promise(function(resolve,reject){
+                var ch=sb.channel('city-lobby-v1',{config:{presence:{key:myId}}}),done=false;
+                var tm=setTimeout(function(){if(!done){done=true;sb.removeChannel(ch);reject({code:'lobby_timeout'})}},10000);
+                function emit(){var state=ch.presenceState(),rooms=[];Object.keys(state).forEach(function(k){(state[k]||[]).forEach(function(v){if(v&&v.kind==='room')rooms.push(v)})});lobbyListeners.slice().forEach(function(f){try{f(rooms)}catch(e){}})}
+                ch.on('presence',{event:'sync'},emit).on('presence',{event:'join'},emit).on('presence',{event:'leave'},emit);
+                ch.subscribe(function(st){
+                    if(st==='SUBSCRIBED'&&!done){done=true;clearTimeout(tm);resolve({
+                        connected:function(){return ch.state==='joined'},
+                        track:function(data){return ch.track(data)},
+                        untrack:function(){return ch.untrack()},
+                        list:function(){var state=ch.presenceState(),a=[];Object.keys(state).forEach(function(k){(state[k]||[]).forEach(function(v){if(v&&v.kind==='room')a.push(v)})});return a},
+                        close:function(){return sb.removeChannel(ch)}
+                    })}
+                    else if((st==='CHANNEL_ERROR'||st==='TIMED_OUT')&&!done){done=true;clearTimeout(tm);reject({code:'lobby_error'})}
+                });
+            });
+            return lobby;
+        })().catch(function(e){lobbyReady=null;throw e});
+        return lobbyReady;
+    }
+    async function roomHash(code){
+        var bytes=new TextEncoder().encode(String(code));
+        if(window.crypto&&crypto.subtle){var digest=await crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(digest)).map(function(b){return b.toString(16).padStart(2,'0')}).join('')}
+        throw new Error('Este navegador não oferece hash seguro para salas privadas. Abra o jogo em HTTPS.');
+    }
+    async function lobbyRooms(){var l=await netLobby();return l.list().filter(function(r){return r.visibility==='public'})}
+    async function refreshRoomList(){
+        var box=$('oRoomList');box.innerHTML='<small>Procurando salas públicas...</small>';
+        try{var l=await netLobby();if(!lobbyUIBound){lobbyListeners.push(function(){if(oMode==='j')refreshRoomList()});lobbyUIBound=true}var rooms=l.list().filter(function(r){return r.visibility==='public'});box.innerHTML='';
+            if(!rooms.length){box.innerHTML='<small>Nenhuma sala pública encontrada no momento.</small>';return}
+            rooms.sort(function(a,b){return (b.updated||0)-(a.updated||0)}).forEach(function(r){
+                var b=document.createElement('button');b.type='button';b.style.cssText='display:block;width:100%;margin:6px 0;text-align:left';
+                b.textContent='🌐 '+String(r.name||'Sala pública')+' · código '+r.code+' · '+Math.max(1,+r.players||1)+' jogador(es)';
+                b.onclick=function(){ $('rc').value=r.code;$('start').click() };box.appendChild(b);
+            });
+        }catch(e){box.innerHTML='<small>Não foi possível carregar as salas. Verifique a conexão.</small>'}
+    }
+    async function lobbyAdvertise(){
+        if(!oIsHost||!roomCode)return;
+        try{var l=await netLobby();var data={kind:'room',code:oVisibility==='public'?roomCode:null,visibility:oVisibility,name:myName||'Sala de jogadores',players:Object.keys(remote).length+1,updated:Date.now()};
+            if(oVisibility==='private')data.secretHash=await roomHash(roomCode);
+            await l.track(data);
+        }catch(e){toast('Não consegui publicar a sala no lobby. Verifique o servidor online.',7000)}
+    }
+    async function joinOnlineRoom(code,visibility){
+        code=normCode(code);if(!code){toast('Digite o código da sala.');return false}
+        try{
+            var l=await netLobby(),rooms=l.list(),found;
+            if(visibility==='public')found=rooms.find(function(r){return r.visibility==='public'&&r.code===code});
+            else{var h=await roomHash(code);found=rooms.find(function(r){return r.code===code&&r.visibility==='public'||r.secretHash===h})}
+            if(!found){toast('Sala não encontrada ou o anfitrião está offline.',6000);return false}
+            roomCode=code;oIsHost=false;oS.dead=0;await oConnect(code);return !!room;
+        }catch(e){toast(e&&e.message?e.message:'Não foi possível consultar o lobby.',7000);return false}
+    }
     var oS= {
         gen:0,busy:0,conn:true,off:[],dead:0,ls:0
     }
@@ -1830,9 +1893,9 @@ details.sc summary {
         ).join(', ')+')':'')+(room&&!oS.conn?' · reconectando…':'')+(dbgOn?' | '+dbg.st+' ↑'+dbg.tx+' ↓'+dbg.rx+' P'+dbg.pr+(dbg.sr&&dbg.sr!=='ok'?' '+dbg.sr:'')+(dbg.er?' '+dbg.er:''):'')
     }
     setInterval(function() {
-        if(room&&$('ol'))$('ol').textContent=oLabel()
-    }
-    ,1000);
+        if(room&&$('ol'))$('ol').textContent=oLabel();
+        if(oIsHost&&room&&lobby&&Date.now()-(lobby.lastUpdate||0)>5000){lobby.lastUpdate=Date.now();lobbyAdvertise()}
+    },1000);
     function oAttach(r,g) {
         var old=oS.off,prev=room;oS.off=[];old.forEach(function(f) {
             try {
@@ -1856,7 +1919,8 @@ details.sc summary {
             }
         }
         $('gm').style.display='block';$('iv').style.display='block';$('ol').textContent=oLabel();
-        if(!prev)toast('Sala '+roomCode+': passe o código e o MESMO link do jogo para seus amigos.');
+        if(oIsHost)lobbyAdvertise();
+        if(!prev)toast('Sala '+roomCode+': compartilhe o código com seus amigos.');
     }
     function oErr(g) {
         return function(e) {
@@ -1903,18 +1967,22 @@ details.sc summary {
     }
     );
     async function goOnline() {
-        try {
-            var ae=document.activeElement;if(ae&&ae!==document.body&&ae.blur)ae.blur()
-        } catch(e) {
-        }
+        try {var ae=document.activeElement;if(ae&&ae!==document.body&&ae.blur)ae.blur()}catch(e){}
         await sleep(120);
         myName=($('nm').value||'').trim().slice(0,14)||('Jogador'+Math.floor(10+Math.random()*89));
-        var code=normCode($('rc').value);
-        if(!code) {
-            for(var i=0;i<5;i++)code+='abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]
+        if(oMode==='c'){
+            var code=normCode(oGen||$('rc').value);
+            if(!code){for(var i=0;i<6;i++)code+='abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]}
+            roomCode=code;oIsHost=true;oS.dead=0;
+            try{var l=await netLobby(),hash=oVisibility==='private'?await roomHash(code):'',existing=l.list().some(function(r){return oVisibility==='public'?r.code===code:r.secretHash===hash});if(existing){toast('Esse código já está em uso. Gere outra sala.');return false}}
+            catch(e){toast('Não foi possível acessar o servidor do lobby.',7000);return false}
+            $('rc').value=code;$('oBig').textContent=code;
+            await oConnect(code);if(!room)return false;
+            await lobbyAdvertise();return true;
         }
-        $('rc').value=code;roomCode=code;oS.dead=0;
-        oConnect(code);
+        var joinCode=normCode($('rc').value);
+        if(!joinCode){toast('Digite o código da sala privada ou escolha uma sala pública.');return false}
+        return await joinOnlineRoom(joinCode,'private');
     }
     var GM=null,myG=null,myRc= {
         i:0,f:0
@@ -4038,7 +4106,7 @@ details.sc summary {
     ;
     var INV=location.href.split('#')[0];
     $('iv').onclick=function() {
-        var link=INV+'#sala-'+roomCode,txt='Vem jogar comigo no Cidade Aberta! 🚗\n1) Link: '+link+'\n2) Toque em Online > Entrar numa sala e digite o código: '+roomCode;
+        var link=INV+'#sala-'+roomCode,txt='Vem jogar comigo no Cidade Aberta! 🚗\nLink: '+link+'\nCódigo: '+roomCode+'\nTipo: '+(oVisibility==='private'?'Privada':'Pública')+'\nAbra Online > Entrar numa sala e use o código.';
         function cp() {
             try {
                 navigator.clipboard.writeText(txt).then(function() {
@@ -4061,34 +4129,25 @@ details.sc summary {
     }
     ;
     var oMode='c',oGen='';
-    function oSetMode(m) {
+    function makeRoomCode(n){var chars='abcdefghjkmnpqrstuvwxyz23456789',v='';for(var i=0;i<n;i++)v+=chars[Math.floor(Math.random()*chars.length)];return v}
+    function oSetMode(m){
         oMode=m;$('oC').className=m==='c'?'on':'';$('oJ').className=m==='j'?'on':'';
-        if(m==='c') {
-            if(!oGen) {
-                oGen='';for(var i=0;i<5;i++)oGen+='abcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random()*31)]
-            }
-            $('rc').value=oGen;$('oBig').textContent=oGen;$('oCode').style.display='block';$('rc').style.display='none';$('start').textContent='CRIAR SALA E JOGAR'
-        }
-        else {
-            if($('rc').value===oGen)$('rc').value='';$('oCode').style.display='none';$('rc').style.display='inline-block';$('start').textContent='ENTRAR NA SALA'
-        }
+        $('oPrivacy').style.display=m==='c'?'block':'none';$('oCode').style.display=m==='c'?'block':'none';$('oJoinArea').style.display=m==='j'?'block':'none';
+        $('start').textContent=m==='c'?'CRIAR SALA E JOGAR':'ENTRAR NA SALA';
+        if(m==='c'){
+            if(!oGen)oGen=makeRoomCode(oVisibility==='private'?8:6);
+            $('rc').value=oGen;$('oBig').textContent=oGen;
+            $('oCodeLabel').textContent=oVisibility==='private'?'Código privado (compartilhe apenas com amigos)':'Código da sala pública';
+        }else refreshRoomList();
     }
-    var _mo=$('mO').onclick;$('mO').onclick=function() {
-        _mo();oSetMode(oMode)
-    }
-    ;
-    $('oC').onclick=function() {
-        oSetMode('c')
-    }
-    ;$('oJ').onclick=function() {
-        oSetMode('j');try {
-            $('rc').focus()
-        } catch(e) {
-        }
-    }
-    ;
+    function setVisibility(v){oVisibility=v;$('oPublic').className=v==='public'?'on':'';$('oPrivate').className=v==='private'?'on':'';oGen=makeRoomCode(v==='private'?8:6);$('rc').value=oGen;$('oBig').textContent=oGen;$('oCodeLabel').textContent=v==='private'?'Código privado (compartilhe apenas com amigos)':'Código da sala pública'}
+    var _mo=$('mO').onclick;$('mO').onclick=function(){_mo();oSetMode(oMode)};
+    $('oC').onclick=function(){oSetMode('c')};$('oJ').onclick=function(){oSetMode('j');try{$('rc').focus()}catch(e){}};
+    $('oPublic').onclick=function(){setVisibility('public')};$('oPrivate').onclick=function(){setVisibility('private')};
+    $('oRefresh').onclick=refreshRoomList;
+    $('rc').addEventListener('keydown',function(e){if(e.key==='Enter'&&oMode==='j')$('start').click()});
     $('oCp').onclick=function() {
-        var t='Vem jogar comigo no Cidade Aberta! 🚗\n1) Link: '+location.href.split('#')[0]+'\n2) Toque em Online > Entrar numa sala e digite o código: '+oGen;
+        var t='Vem jogar comigo no Cidade Aberta! 🚗\nLink: '+location.href.split('#')[0]+'#sala-'+oGen+'\nCódigo: '+oGen+'\nTipo: '+(oVisibility==='private'?'Privada':'Pública')+'\nAbra Online > Entrar numa sala e use o código.';
         function cp() {
             try {
                 navigator.clipboard.writeText(t).then(function() {
@@ -4430,8 +4489,10 @@ details.sc summary {
         }
     }
     ;
-    $("start").onclick=function() {
-        goFS();initAudio();if(onl&&!room&&!oS.busy)goOnline();reset();playing=true;$("ov").style.display="none"
+    $("start").onclick=async function() {
+        goFS();initAudio();
+        if(onl){var ok=await goOnline();if(!ok)return}
+        reset();playing=true;$("ov").style.display="none"
     }
     ;
 }
